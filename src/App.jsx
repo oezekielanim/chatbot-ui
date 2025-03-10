@@ -4,9 +4,9 @@ import { Send, Menu } from "lucide-react";
 import { motion } from "framer-motion";
 
 // Updated import paths to resolve component issues
-import { Card, CardContent } from "../components/ui/card";
-import { Button } from "../components/ui/button";
-import { Input } from "../components/ui/input";
+import { Card, CardContent } from "./components/Card";
+import { Button } from "./components/Button";
+import { Input } from "./components/Input";
 
 export default function ChatbotUI() {
   const [messages, setMessages] = useState([
