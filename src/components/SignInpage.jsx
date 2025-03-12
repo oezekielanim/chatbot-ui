@@ -27,7 +27,7 @@ export default function SignIn() {
       className="flex items-center justify-center h-screen bg-cover bg-center"
       style={{ backgroundImage: `url(${BackgroundImage})` }}
     >
-      <div className="bg-white bg-opacity-75 p-8 rounded-xl shadow-lg w-full max-w-md text-center">
+      <div className="backdrop-blur-lg p-8 rounded-xl shadow-lg w-full max-w-md text-center"> 
         <img src={LmiLogo} alt="LMI Logo" className="w-24 mx-auto mb-4" />
         <h2 className="text-2xl font-semibold text-red-600 mb-6">LMI Chatbot Sign-In</h2>
 
