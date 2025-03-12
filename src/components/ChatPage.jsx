@@ -1,10 +1,11 @@
 /* eslint-disable no-unused-vars */
 import { useState } from "react";
-import { Send, Menu } from "lucide-react";
+import { Send, Menu, Sun, Moon, LogOut } from "lucide-react";
 import { motion } from "framer-motion";
 import { Card, CardContent } from "./Card";
 import { Button } from "./Button";
 import { Input } from "./Input";
+import { useNavigate } from "react-router-dom";
 import LmiLogo from "./assets/lmi-logo.jpg"; // Ensure LMI logo is in the assets folder
 
 export default function ChatbotUI() {
@@ -12,25 +13,29 @@ export default function ChatbotUI() {
     { text: "Hello! How can I assist you today?", sender: "bot" }
   ]);
   const [input, setInput] = useState("");
+  const [darkMode, setDarkMode] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const navigate = useNavigate();
 
-  const sendMessage = () => {
+  const sendMessage = (e) => {
+    e.preventDefault(); // Prevents page reload when form is submitted
     if (!input.trim()) return;
-    const newMessages = [...messages, { text: input, sender: "user" }];
-    setMessages(newMessages);
+    setMessages([...messages, { text: input, sender: "user" }]);
     setInput("");
   };
 
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter") {
-      e.preventDefault(); // Prevent default behavior of Enter key
-      sendMessage();
-    }
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
+  };
+
+  const handleLogout = () => {
+    navigate("/"); // Redirects to sign-in page on logout
   };
 
   return (
-    <div className="flex h-screen w-full bg-white">
+    <div className={`flex h-screen w-full ${darkMode ? "bg-gray-900 text-white" : "bg-white"}`}>
       {/* Sidebar - Hidden on smaller screens */}
-      <div className="w-1/4 bg-red-600 shadow-lg p-4 hidden md:block text-white">
+      <div className={`w-1/4 ${darkMode ? "bg-gray-800" : "bg-red-600"} shadow-lg p-4 hidden md:block text-white`}>
         <img src={LmiLogo} alt="LMI Logo" className="w-24 mx-auto mb-4" />
         <h2 className="text-xl font-semibold text-center">LMI Chatbot</h2>
       </div>
@@ -38,16 +43,32 @@ export default function ChatbotUI() {
       {/* Chat Section */}
       <div className="flex flex-col w-full md:w-3/4 p-4 relative">
         {/* Header with LMI Logo */}
-        <header className="flex items-center justify-between p-4 bg-red-600 text-white rounded-t-lg">
+        <header className={`flex items-center justify-between p-4 ${darkMode ? "bg-gray-800" : "bg-red-600"} text-white rounded-t-lg`}>
           <div className="flex items-center space-x-2">
             <img src={LmiLogo} alt="LMI Logo" className="w-8 h-8" />
             <h2 className="text-lg font-semibold">LMI Holdings Chatbot</h2>
           </div>
-          <Menu className="cursor-pointer" />
+
+          {/* Menu Button */}
+          <div className="relative">
+            <Menu className="cursor-pointer" onClick={() => setMenuOpen(!menuOpen)} />
+            {menuOpen && (
+              <div className={`absolute right-0 mt-2 w-40 rounded-lg shadow-md ${darkMode ? "bg-gray-800" : "bg-black"} p-2`}>
+                <Button onClick={toggleDarkMode} className="flex items-center w-full p-2 text-sm">
+                  {darkMode ? <Sun className="w-4 h-4 mr-2" /> : <Moon className="w-4 h-4 mr-2" />}
+                  {darkMode ? "Light Mode" : "Dark Mode"}
+                </Button>
+                <Button onClick={handleLogout} className="flex items-center w-full p-2 text-sm text-red-600">
+                  <LogOut className="w-4 h-4 mr-2" />
+                  Logout
+                </Button>
+              </div>
+            )}
+          </div>
         </header>
 
         {/* Chat Messages */}
-        <Card className="flex flex-col flex-1 p-4 overflow-auto h-[75vh] bg-gray-100">
+        <Card className={`flex flex-col flex-1 p-4 overflow-auto h-[75vh] ${darkMode ? "bg-gray-700" : "bg-gray-100"}`}>
           <CardContent className="space-y-4">
             {messages.map((msg, index) => (
               <motion.div
@@ -56,8 +77,8 @@ export default function ChatbotUI() {
                 animate={{ opacity: 1, y: 0 }}
                 className={`max-w-max p-3 rounded-lg flex items-center space-x-2 shadow-md ${
                   msg.sender === "user"
-                    ? "bg-red-600 text-white self-end ml-auto"
-                    : "bg-white text-black self-start flex-row"
+                    ? `${darkMode ? "bg-red-700" : "bg-red-600"} text-white self-end ml-auto`
+                    : `${darkMode ? "bg-gray-600 text-white" : "bg-white text-black"} self-start flex-row`
                 }`}
               >
                 {msg.sender === "bot" && (
@@ -69,19 +90,19 @@ export default function ChatbotUI() {
           </CardContent>
         </Card>
 
-        {/* Input Section */}
-        <div className="flex items-center p-4 bg-white rounded-b-lg shadow-md border-t">
+        {/* Input Section - Now wrapped in a <form> */}
+        <form onSubmit={sendMessage} className={`flex items-center p-4 ${darkMode ? "bg-gray-800" : "bg-white"} rounded-b-lg shadow-md border-t`}>
           <Input
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            onKeyDown={handleKeyDown}
             placeholder="Type a message..."
             className="flex-1 p-2 border rounded-lg"
+            required
           />
-          <Button onClick={sendMessage} className="ml-2 bg-red-600 text-white rounded-lg px-4 py-2">
+          <Button type="submit" className="ml-2 bg-red-600 text-white rounded-lg px-4 py-2">
             <Send className="w-5 h-5" />
           </Button>
-        </div>
+        </form>
       </div>
     </div>
   );

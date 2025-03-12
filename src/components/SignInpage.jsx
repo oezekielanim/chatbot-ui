@@ -5,7 +5,6 @@ import { Input } from "./Input";
 import LmiLogo from "./assets/lmi-logo.jpg";
 import BackgroundImage from "./assets/background.jpg"; // Ensure an appropriate background image is available
 
-
 export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -14,9 +13,10 @@ export default function SignIn() {
   const hardcodedEmail = "user@lmi.com";
   const hardcodedPassword = "password123";
 
-  const handleSignIn = () => {
+  const handleSignIn = (e) => {
+    e.preventDefault(); // Prevents page reload
     if (email === hardcodedEmail && password === hardcodedPassword) {
-      navigate("/ChatPage"); // Route to chat page after authentication
+      navigate("/chatpage"); // Route to chat page after authentication
     } else {
       alert("Invalid email or password. Please try again.");
     }
@@ -31,29 +31,33 @@ export default function SignIn() {
         <img src={LmiLogo} alt="LMI Logo" className="w-24 mx-auto mb-4" />
         <h2 className="text-2xl font-semibold text-red-600 mb-6">LMI Chatbot Sign-In</h2>
 
-        <div className="mb-4">
-          <Input
-            type="email"
-            placeholder="Enter your corporate email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full p-3 border rounded-lg"
-          />
-        </div>
-        
-        <div className="mb-4">
-          <Input
-            type="password"
-            placeholder="Enter your password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full p-3 border rounded-lg"
-          />
-        </div>
+        <form onSubmit={handleSignIn}> {/* Wrap inputs inside a form */}
+          <div className="mb-4">
+            <Input
+              type="email"
+              placeholder="Enter your corporate email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full p-3 border rounded-lg"
+              required
+            />
+          </div>
 
-        <Button onClick={handleSignIn} className="w-full bg-red-600 text-white py-3 rounded-lg">
-          Sign In
-        </Button>
+          <div className="mb-4">
+            <Input
+              type="password"
+              placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full p-3 border rounded-lg"
+              required
+            />
+          </div>
+
+          <Button type="submit" className="w-full bg-red-600 text-white py-3 rounded-lg">
+            Sign In
+          </Button>
+        </form>
       </div>
     </div>
   );
