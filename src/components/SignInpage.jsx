@@ -1,4 +1,5 @@
 import { useState } from "react";
+// import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "./Button";
 import { Input } from "./Input";
@@ -13,14 +14,26 @@ export default function SignIn() {
   const hardcodedEmail = "user@lmi.com";
   const hardcodedPassword = "password123";
 
+  // const handleSignIn = (e) => {
+  //   e.preventDefault(); // Prevents page reload
+  //   if (email === hardcodedEmail && password === hardcodedPassword) {
+  //     navigate("/chatpage"); // Route to chat page after authentication
+  //   } else {
+  //     alert("Invalid email or password. Please try again.");
+  //   }
+  // };
+
   const handleSignIn = (e) => {
-    e.preventDefault(); // Prevents page reload
+    e.preventDefault();
     if (email === hardcodedEmail && password === hardcodedPassword) {
-      navigate("/chatpage"); // Route to chat page after authentication
+      sessionStorage.setItem("authenticated", "true"); // Store session
+      navigate("/chatpage", { replace: true });
     } else {
       alert("Invalid email or password. Please try again.");
     }
   };
+
+ 
 
   return (
     <div

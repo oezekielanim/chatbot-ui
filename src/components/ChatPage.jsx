@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { useState } from "react";
+import { useEffect } from "react";
 import { Send, Menu, Sun, Moon, LogOut } from "lucide-react";
 import { motion } from "framer-motion";
 import { Card, CardContent } from "./Card";
@@ -29,8 +30,16 @@ export default function ChatbotUI() {
   };
 
   const handleLogout = () => {
+    sessionStorage.clear();
     navigate("/"); // Redirects to sign-in page on logout
   };
+
+  useEffect(() => {
+    const isAuthenticated = sessionStorage.getItem("authenticated");
+    if (!isAuthenticated) {
+      navigate("/", { replace: true });
+    }
+  }, [navigate]);
 
   return (
     <div className={`flex h-screen w-full ${darkMode ? "bg-gray-900 text-white" : "bg-white"}`}>
