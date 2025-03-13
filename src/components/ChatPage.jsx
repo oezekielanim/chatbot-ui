@@ -18,12 +18,37 @@ export default function ChatbotUI() {
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
 
-  const sendMessage = (e) => {
-    e.preventDefault(); // Prevents page reload when form is submitted
+  // const sendMessage = (e) => {
+  //   e.preventDefault(); // Prevents page reload when form is submitted
+  //   if (!input.trim()) return;
+  //   setMessages([...messages, { text: input, sender: "user" }]);
+  //   setInput("");
+  // };
+
+  const sendMessage = async (e) => {
+    e.preventDefault(); //Prevents page reload when form is submitted
     if (!input.trim()) return;
+  
+    // Show user message
     setMessages([...messages, { text: input, sender: "user" }]);
-    setInput("");
+  
+    // Send question to backend
+    try {
+      const response = await fetch("http://localhost:5000/chatbot", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ question: input }),
+      });
+  
+      const data = await response.json();
+      setMessages([...messages, { text: input, sender: "user" }, { text: data.response, sender: "bot" }]);
+    } catch (error) {
+      console.error("Error fetching chatbot response:", error);
+    }
+  
+    setInput(""); // Clear input field
   };
+  
 
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
