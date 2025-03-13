@@ -34,11 +34,17 @@ export default function ChatbotUI() {
   
     // Send question to backend
     try {
-      const response = await fetch("http://localhost:5000/chatbot", {
+      // const response = await fetch("http://localhost:5000/chatbot", {
+      //   method: "POST",
+      //   headers: { "Content-Type": "application/json" },
+      //   body: JSON.stringify({ question: input }),
+      // });
+      const response = await fetch("https://chatbot-backend.onrender.com/chatbot", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ question: input }),
       });
+      
   
       const data = await response.json();
       setMessages([...messages, { text: input, sender: "user" }, { text: data.response, sender: "bot" }]);
