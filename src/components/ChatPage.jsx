@@ -39,7 +39,7 @@ export default function ChatbotUI() {
       //   headers: { "Content-Type": "application/json" },
       //   body: JSON.stringify({ question: input }),
       // });
-      const response = await fetch("https://chatbot-backend-2ngl.onrender.com", {
+      const response = await fetch("https://chatbot-backend-hr7i.onrender.com", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ question: input }),
