@@ -45,7 +45,7 @@ export default function ChatbotUI() {
       //   body: JSON.stringify({ question: input }),
       // });
 
-      const response = await fetch("https://pfrimpong-hr-policy-bot.hf.space/docs", {
+      const response = await fetch("https://pfrimpong-hr-policy-bot.hf.space/chatbot", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ question: input }),
