@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState, useEffect, useRef } from "react";
 import { Send, Menu, Sun, Moon, LogOut, Loader } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
