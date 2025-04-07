@@ -79,19 +79,16 @@
 
 import { useMsal } from "@azure/msal-react";
 import { Button } from "./Button";
-import { useNavigate } from "react-router-dom";
 import LmiLogo from "./assets/lmi-logo.jpg";
 import BackgroundImage from "./assets/background.jpg";
 
 export default function SignInPage() {
   const { instance } = useMsal();
-  const navigate = useNavigate();
-
+  
   const handleLogin = () => {
     instance.loginPopup().then((response) => {
       console.log("Logged in:", response);
-      // window.location.href = "/chatpage";
-      navigate("/chatpage", { replace: true });
+      window.location.href = "https://chatbot-ui-pearl-psi.vercel.app/chatpage";
     }).catch(e => {
       console.error(e);
     });
