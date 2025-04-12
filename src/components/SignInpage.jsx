@@ -62,10 +62,13 @@ export default function AuthPage() {
       });
 
       const data = await response.json();
-
       if (response.ok) {
-        sessionStorage.setItem("email", email);
-        setShowOtpPopup(true);
+        sessionStorage.setItem("authenticated", "true");
+        sessionStorage.setItem("token", data.token);
+        sessionStorage.removeItem("email");
+        navigate("/chat", { replace: true });
+        setShowOtpPopup(false);
+        setOtp("");
       } else {
         alert(data.msg || "Login failed. Please try again.");
       }
@@ -147,11 +150,7 @@ export default function AuthPage() {
     //   });
 
     try {
-      const endpoint =
-        activeTab === "login"
-          ? "https://bot-backend-rpqo.onrender.com/api/auth/verify-login-otp"
-          : "https://bot-backend-rpqo.onrender.com/api/auth/verify-account-otp";
-      const response = await fetch(endpoint, {
+      const response = await fetch("https://bot-backend-rpqo.onrender.com/api/auth/verify-account-otp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, otp }),
