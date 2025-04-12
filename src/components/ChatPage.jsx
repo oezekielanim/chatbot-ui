@@ -68,13 +68,11 @@ export default function ChatbotUI() {
 
     // Fetch all chats on mount
     const fetchChats = async () => {
-      console.log(token)
       try {
         const response = await axios.get("http://localhost:3000/api/chats/", {
           headers: { Authorization: `Bearer ${token}` },
         });
         setChats(response.data);
-        console.log('fetched chats: ', response.data);
       } catch (error) {
         console.error("Error fetching chats:", error);
       }

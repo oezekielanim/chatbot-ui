@@ -216,6 +216,18 @@ export default function AuthPage() {
             </button>
           </div>
 
+          {activeTab === "login" && (
+            <div className="mb-4 text-right">
+              <button
+                type="button"
+                className="text-red-600 hover:underline text-sm"
+                onClick={() => navigate("/forgot-password")}
+              >
+                Forgot Password?
+              </button>
+            </div>
+          )}
+
           {activeTab === "signup" && (
             <div className="mb-4 relative">
               <input
