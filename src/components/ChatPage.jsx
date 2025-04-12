@@ -70,7 +70,7 @@ export default function ChatbotUI() {
     // Fetch all chats on mount
     const fetchChats = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/api/chats/", {
+        const response = await axios.get("https://bot-backend-rpqo.onrender.com/api/chats/", {
           headers: { Authorization: `Bearer ${token}` },
         });
         setChats(response.data);
@@ -116,7 +116,7 @@ export default function ChatbotUI() {
 
       if (!chatId) {
         const newChatResponse = await axios.post(
-          "http://localhost:3000/api/chats/new",
+          "https://bot-backend-rpqo.onrender.com/api/chats/new",
           { initialMessage: trimmedInput, sender: "user" },
           { headers: { Authorization: `Bearer ${token}` } }
         );
@@ -126,7 +126,7 @@ export default function ChatbotUI() {
         navigate(`/chat/${chatId}`); // Update URL with new chat ID
       } else {
         await axios.post(
-          "http://localhost:3000/api/chats/append",
+          "https://bot-backend-rpqo.onrender.com/api/chats/append",
           { chatId, message: trimmedInput, sender: "user" },
           { headers: { Authorization: `Bearer ${token}` } }
         );
@@ -142,7 +142,7 @@ export default function ChatbotUI() {
       setIsLoading(false);
 
       await axios.post(
-        "http://localhost:3000/api/chats/append",
+        "https://bot-backend-rpqo.onrender.com/api/chats/append",
         { chatId, message: botResponse.data.answer, sender: "bot" },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -159,7 +159,7 @@ export default function ChatbotUI() {
 
   const loadChat = async (chatId) => {
     try {
-      const response = await axios.get(`http://localhost:3000/api/chats/${chatId}`, {
+      const response = await axios.get(`https://bot-backend-rpqo.onrender.com/api/chats/${chatId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setCurrentChatId(chatId);
@@ -174,7 +174,7 @@ export default function ChatbotUI() {
   const editChatTitle = async (chatId, newTitle) => {
     try {
       const response = await axios.put(
-        `http://localhost:3000/api/chats/${chatId}`,
+        `https://bot-backend-rpqo.onrender.com/api/chats/${chatId}`,
         { title: newTitle },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -189,7 +189,7 @@ export default function ChatbotUI() {
   // Delete a chat
 const deleteChat = async (chatId) => {
     try {
-      await axios.delete(`http://localhost:3000/api/chats/${chatId}`, {
+      await axios.delete(`https://bot-backend-rpqo.onrender.com/api/chats/${chatId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setChats((prev) => prev.filter((chat) => chat._id !== chatId));
