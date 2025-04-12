@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { Send, Menu, Sun, Moon, LogOut, Loader, Trash2, Edit2 } from "lucide-react";
@@ -89,6 +90,7 @@ export default function ChatbotUI() {
       setCurrentChatId(null);
       setMessages([]); // Reset messages for new chat
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [urlChatId]);
 
   // Start a new chat

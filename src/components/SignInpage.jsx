@@ -47,8 +47,15 @@ export default function AuthPage() {
     setEmailError("");
     setIsLoading(true);
 
+    // try {
+    //   const response = await fetch("http://localhost:3000/api/auth/login", {
+    //     method: "POST",
+    //     headers: { "Content-Type": "application/json" },
+    //     body: JSON.stringify({ email, password }),
+    //   });
+
     try {
-      const response = await fetch("http://localhost:3000/api/auth/login", {
+      const response = await fetch("https://bot-backend-rpqo.onrender.com/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -90,8 +97,15 @@ export default function AuthPage() {
     setPasswordError("");
     setIsLoading(true);
 
+    // try {
+    //   const response = await fetch("http://localhost:3000/api/auth/register", {
+    //     method: "POST",
+    //     headers: { "Content-Type": "application/json" },
+    //     body: JSON.stringify({ email, password }),
+    //   });
+
     try {
-      const response = await fetch("http://localhost:3000/api/auth/register", {
+      const response = await fetch("https://bot-backend-rpqo.onrender.com/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -121,11 +135,22 @@ export default function AuthPage() {
     const email = sessionStorage.getItem("email");
     setIsLoading(true);
 
+    // try {
+    //   const endpoint =
+    //     activeTab === "login"
+    //       ? "http://localhost:3000/api/auth/verify-login-otp"
+    //       : "http://localhost:3000/api/auth/verify-account-otp";
+    //   const response = await fetch(endpoint, {
+    //     method: "POST",
+    //     headers: { "Content-Type": "application/json" },
+    //     body: JSON.stringify({ email, otp }),
+    //   });
+
     try {
       const endpoint =
         activeTab === "login"
-          ? "http://localhost:3000/api/auth/verify-login-otp"
-          : "http://localhost:3000/api/auth/verify-account-otp";
+          ? "https://bot-backend-rpqo.onrender.com/api/auth/verify-login-otp"
+          : "https://bot-backend-rpqo.onrender.com/api/auth/verify-account-otp";
       const response = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
