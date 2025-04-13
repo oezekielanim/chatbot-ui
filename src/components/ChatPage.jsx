@@ -26,6 +26,7 @@ export default function ChatbotUI() {
   const navigate = useNavigate();
   const messagesEndRef = useRef(null);
   const menuRef = useRef(null);
+  const [showSidebar, setShowSidebar] = useState(false);
 
   const token = sessionStorage.getItem("token"); // JWT token from auth
 
@@ -229,8 +230,9 @@ const deleteChat = async (chatId) => {
         darkMode ? "bg-gray-900 text-white" : "bg-gray-50"
       }`}
     >
+      {/* fixed sidebar, can later uncomment this side incase of any issues. */}
       {/* Sidebar */}
-      <div
+      {/* <div
         className={`w-64 ${
           darkMode ? "bg-gray-800" : "bg-red-600"
         } shadow-lg p-4 flex flex-col text-white transition-all duration-300`}
@@ -291,7 +293,89 @@ const deleteChat = async (chatId) => {
             Logout
           </Button>
         </div>
+      </div> */}
+      <div
+  className={`fixed top-0 left-0 h-full w-64 z-40 transform transition-transform duration-300 
+    ${showSidebar ? "translate-x-0" : "-translate-x-full"} 
+    md:translate-x-0 md:static md:flex 
+    ${darkMode ? "bg-gray-800" : "bg-red-600"} 
+    shadow-lg p-4 flex flex-col text-white`}
+>
+  {/* Close button on mobile */}
+  <div className="flex justify-between items-center md:hidden mb-4">
+    <img src={LmiLogo} alt="LMI Logo" className="w-24" />
+    <Button onClick={() => setShowSidebar(false)} className="text-white">
+      ×
+    </Button>
+  </div>
+
+  {/* Logo and Title (always visible on desktop) */}
+  <div className="hidden md:block mb-4 text-center">
+    <img src={LmiLogo} alt="LMI Logo" className="w-24 mx-auto rounded-lg mb-2" />
+    <h2 className="text-xl font-semibold">LMI HR Assistant</h2>
+  </div>
+
+  <Button
+    onClick={startNewChat}
+    className="w-full p-3 mb-4 rounded-lg hover:bg-opacity-20 hover:bg-black transition"
+  >
+    New Chat
+  </Button>
+
+  <div className="flex-1 overflow-y-auto space-y-2">
+    {chats.map((chat) => (
+      <div
+        key={chat._id}
+        className={`flex items-center justify-between p-2 rounded-lg ${
+          currentChatId === chat._id ? "bg-opacity-30 bg-black" : ""
+        } hover:bg-opacity-20 hover:bg-black transition`}
+      >
+        <button
+          onClick={() => {
+            loadChat(chat._id);
+            setShowSidebar(false);
+          }}
+          className="flex-1 text-left truncate"
+        >
+          {chat.title || `Chat ${chat._id.slice(-6)}`}
+        </button>
+        <Button
+          onClick={() => {
+            const newTitle = prompt("Enter new title:", chat.title);
+            if (newTitle) editChatTitle(chat._id, newTitle);
+          }}
+          className="p-1 hover:bg-opacity-10 hover:bg-gray-500"
+        >
+          <Edit2 className="w-4 h-4" />
+        </Button>
+        <Button
+          onClick={() => deleteChat(chat._id)}
+          className="p-1 hover:bg-opacity-10 hover:bg-gray-500"
+        >
+          <Trash2 className="w-4 h-4" />
+        </Button>
       </div>
+    ))}
+  </div>
+
+  <div className="mt-4 space-y-2">
+    <Button
+      onClick={toggleDarkMode}
+      className="flex items-center w-full p-3 justify-center rounded-lg hover:bg-opacity-20 hover:bg-black transition"
+    >
+      {darkMode ? <Sun className="w-5 h-5 mr-2" /> : <Moon className="w-5 h-5 mr-2" />}
+      {darkMode ? "Light Mode" : "Dark Mode"}
+    </Button>
+    <Button
+      onClick={handleLogout}
+      className="flex items-center w-full p-3 justify-center rounded-lg hover:bg-opacity-20 hover:bg-black transition"
+    >
+      <LogOut className="w-5 h-5 mr-2" />
+      Logout
+    </Button>
+  </div>
+</div>
+
 
       {/* Chat Section */}
       <div className="flex flex-col flex-1 relative">
@@ -307,9 +391,11 @@ const deleteChat = async (chatId) => {
           </div>
           <div className="md:hidden" ref={menuRef}>
             <Button
-              onClick={() => setMenuOpen(!menuOpen)}
-              className="p-2 rounded-full hover:bg-opacity-20 hover:bg-black transition"
+              // onClick={() => setMenuOpen(!menuOpen)}
+              onClick={() => setShowSidebar(true)}
+              className="p-2 rounded-full hover:bg-opacity-20 hover:bg-black transition md:hidden"
             >
+
               <Menu className="w-5 h-5" />
             </Button>
             <AnimatePresence>
