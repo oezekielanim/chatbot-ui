@@ -26,7 +26,7 @@ export default function AuthPage() {
     "@lmi-shamrock.com",
     "@lmi-homes.com",
     "@lmi-utilities.com",
-    "@lmi-digital.com",
+    "@lmi-digital.net",
     "@gmail.com",
   ];
 
