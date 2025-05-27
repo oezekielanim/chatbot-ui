@@ -134,7 +134,7 @@ export default function ChatbotUI() {
       }
 
       const botResponse = await axios.post(
-        "https://pfrimpong-hr-policy-bot.hf.space/ask",
+        "https://oezekielanim-hr-policy.hf.space/ask",
         { text: trimmedInput },
         { headers: { "Content-Type": "application/json" } }
       );
@@ -300,6 +300,7 @@ const deleteChat = async (chatId) => {
     md:translate-x-0 md:static md:flex 
     ${darkMode ? "bg-gray-800" : "bg-red-600"} 
     shadow-lg p-4 flex flex-col text-white`}
+
 >
   {/* Close button on mobile */}
   <div className="flex justify-between items-center md:hidden mb-4">
