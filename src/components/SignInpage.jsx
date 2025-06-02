@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "./Button";
 import { Input } from "./Input";
 import LmiLogo from "./assets/lmi-logo.jpg";
-import BackgroundImage from "./assets/background.jpg";
+import BackgroundImage from "./assets/bg.jpg";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 export default function AuthPage() {
