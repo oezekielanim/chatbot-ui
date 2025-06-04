@@ -15,6 +15,9 @@ export default function ChatbotUI() {
   const [currentChatId, setCurrentChatId] = useState(null); // Current active chat
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
+  const [hoveredChat, setHoveredChat] = useState(null);
+  const [menuOpenChatId, setMenuOpenChatId] = useState(null);
+  const [showWelcome, setShowWelcome] = useState(true);
   const [darkMode, setDarkMode] = useState(() => {
     const savedMode = localStorage.getItem("darkMode");
     return savedMode !== null
@@ -230,71 +233,8 @@ const deleteChat = async (chatId) => {
         darkMode ? "bg-gray-900 text-white" : "bg-gray-50"
       }`}
     >
-      {/* fixed sidebar, can later uncomment this side incase of any issues. */}
-      {/* Sidebar */}
-      {/* <div
-        className={`w-64 ${
-          darkMode ? "bg-gray-800" : "bg-red-600"
-        } shadow-lg p-4 flex flex-col text-white transition-all duration-300`}
-      >
-        <img src={LmiLogo} alt="LMI Logo" className="w-24 mx-auto mb-4 rounded-lg" />
-        <h2 className="text-xl font-semibold text-center mb-4">LMI HR Assistant</h2>
-        <Button
-          onClick={startNewChat}
-          className="w-full p-3 mb-4 rounded-lg hover:bg-opacity-20 hover:bg-black transition"
-        >
-          New Chat
-        </Button>
-        <div className="flex-1 overflow-y-auto space-y-2">
-          {chats.map((chat) => (
-            <div
-              key={chat._id}
-              className={`flex items-center justify-between p-2 rounded-lg ${
-                currentChatId === chat._id ? "bg-opacity-30 bg-black" : ""
-              } hover:bg-opacity-20 hover:bg-black transition`}
-            >
-              <button
-                onClick={() => loadChat(chat._id)}
-                className="flex-1 text-left truncate"
-              >
-                {chat.title || `Chat ${chat._id.slice(-6)}`}
-              </button>
-              <Button
-                onClick={() => {
-                  const newTitle = prompt("Enter new title:", chat.title);
-                  if (newTitle) editChatTitle(chat._id, newTitle);
-                }}
-                className="p-1 hover:bg-opacity-10 hover:bg-gray-500"
-              >
-                <Edit2 className="w-4 h-4" />
-              </Button>
-              <Button
-                onClick={() => deleteChat(chat._id)}
-                className="p-1 hover:bg-opacity-10 hover:bg-gray-500"
-              >
-                <Trash2 className="w-4 h-4" />
-              </Button>
-            </div>
-          ))}
-        </div>
-        <div className="mt-4 space-y-2">
-          <Button
-            onClick={toggleDarkMode}
-            className="flex items-center w-full p-3 justify-center rounded-lg hover:bg-opacity-20 hover:bg-black transition"
-          >
-            {darkMode ? <Sun className="w-5 h-5 mr-2" /> : <Moon className="w-5 h-5 mr-2" />}
-            {darkMode ? "Light Mode" : "Dark Mode"}
-          </Button>
-          <Button
-            onClick={handleLogout}
-            className="flex items-center w-full p-3 justify-center rounded-lg hover:bg-opacity-20 hover:bg-black transition"
-          >
-            <LogOut className="w-5 h-5 mr-2" />
-            Logout
-          </Button>
-        </div>
-      </div> */}
-      <div
+      
+      {/*<div
   className={`fixed top-0 left-0 h-full w-64 z-40 transform transition-transform duration-300 
     ${showSidebar ? "translate-x-0" : "-translate-x-full"} 
     md:translate-x-0 md:static md:flex 
@@ -302,7 +242,7 @@ const deleteChat = async (chatId) => {
     shadow-lg p-4 flex flex-col text-white`}
 
 >
-  {/* Close button on mobile */}
+  {/* Close button on mobile *}
   <div className="flex justify-between items-center md:hidden mb-4">
     <img src={LmiLogo} alt="LMI Logo" className="w-24" />
     <Button onClick={() => setShowSidebar(false)} className="text-white">
@@ -310,7 +250,7 @@ const deleteChat = async (chatId) => {
     </Button>
   </div>
 
-  {/* Logo and Title (always visible on desktop) */}
+  {/* Logo and Title (always visible on desktop) *}
   <div className="hidden md:block mb-4 text-center">
     <img src={LmiLogo} alt="LMI Logo" className="w-24 mx-auto rounded-lg mb-2" />
     <h2 className="text-xl font-semibold">LMI HR Assistant</h2>
@@ -357,6 +297,121 @@ const deleteChat = async (chatId) => {
         </Button>
       </div>
     ))}
+  </div>
+
+  <div className="mt-4 space-y-2">
+    <Button
+      onClick={toggleDarkMode}
+      className="flex items-center w-full p-3 justify-center rounded-lg hover:bg-opacity-20 hover:bg-black transition"
+    >
+      {darkMode ? <Sun className="w-5 h-5 mr-2" /> : <Moon className="w-5 h-5 mr-2" />}
+      {darkMode ? "Light Mode" : "Dark Mode"}
+    </Button>
+    <Button
+      onClick={handleLogout}
+      className="flex items-center w-full p-3 justify-center rounded-lg hover:bg-opacity-20 hover:bg-black transition"
+    >
+      <LogOut className="w-5 h-5 mr-2" />
+      Logout
+    </Button>
+  </div>
+</div>*/}
+{/* Sidebar */}
+<div
+  className={`fixed top-0 left-0 h-full w-64 z-40 transform transition-transform duration-300 
+    ${showSidebar ? "translate-x-0" : "-translate-x-full"} 
+    md:translate-x-0 md:static md:flex 
+    ${darkMode ? "bg-gray-800" : "bg-red-600"} 
+    shadow-lg p-4 flex flex-col text-white`}
+>
+  {/* Close button on mobile */}
+  <div className="flex justify-between items-center md:hidden mb-4">
+    <img src={LmiLogo} alt="LMI Logo" className="w-24" />
+    <Button onClick={() => setShowSidebar(false)} className="text-white">
+      ×
+    </Button>
+  </div>
+
+  {/* Logo and Title (desktop only) */}
+  <div className="hidden md:block mb-4 text-center">
+    <img src={LmiLogo} alt="LMI Logo" className="w-24 mx-auto rounded-lg mb-2" />
+    <h2 className="text-xl font-semibold">LMI HR Assistant</h2>
+  </div>
+
+  <Button
+    onClick={startNewChat}
+    className="w-full p-3 mb-4 rounded-lg hover:bg-opacity-20 hover:bg-black transition"
+  >
+    New Chat
+  </Button>
+
+  {/* Chat List with Hover Menu */}
+  <div className="flex-1 overflow-y-auto space-y-2">
+    {chats.map((chat) => {
+      const displayTitle =
+        chat.title?.charAt(0).toUpperCase() + chat.title?.slice(1) || `Chat ${chat._id.slice(-6)}`;
+
+      return (
+        <div
+          key={chat._id}
+          onMouseEnter={() => setHoveredChat(chat._id)}
+          onMouseLeave={() => {
+            setHoveredChat(null);
+            setMenuOpenChatId(null);
+          }}
+          className={`relative flex items-center justify-between p-2 rounded-lg ${
+            currentChatId === chat._id ? "bg-opacity-30 bg-black" : ""
+          } hover:bg-opacity-20 hover:bg-black transition`}
+        >
+          <button
+            onClick={() => {
+              loadChat(chat._id);
+              setShowSidebar(false);
+            }}
+            className="flex-1 text-left truncate"
+          >
+            {displayTitle}
+          </button>
+
+          {/* Three dot trigger */}
+          {hoveredChat === chat._id && (
+            <Button
+              onClick={() =>
+                setMenuOpenChatId(menuOpenChatId === chat._id ? null : chat._id)
+              }
+              className="p-1 ml-2 hover:bg-opacity-10 hover:bg-gray-500"
+            >
+              <span className="text-white text-xl">⋮</span>
+            </Button>
+          )}
+
+          {/* Edit/Delete Menu */}
+          {menuOpenChatId === chat._id && (
+            <div className="absolute right-2 top-10 bg-white text-gray-800 shadow-lg rounded-md z-10 text-sm w-28">
+              <button
+                onClick={() => {
+                  const newTitle = prompt("Enter new title:", chat.title);
+                  if (newTitle) editChatTitle(chat._id, newTitle);
+                  setMenuOpenChatId(null);
+                }}
+                className="w-full text-left px-4 py-2 hover:bg-gray-100"
+              >
+                ✏️ Edit
+              </button>
+              <button
+                onClick={() => {
+                  deleteChat(chat._id);
+                  setMenuOpenChatId(null);
+                }}
+                className="w-full text-left px-4 py-2 text-red-600 hover:bg-gray-100"
+              >
+                🗑️ Delete
+              </button>
+            </div>
+          )}
+        </div>
+      );
+    })}
   </div>
 
   <div className="mt-4 space-y-2">
@@ -495,6 +550,13 @@ const deleteChat = async (chatId) => {
                       <span className="dot"></span>
                       <span className="dot"></span>
                     </div>
+                    {showWelcome && messages.length === 0 && (
+                      <div className="text-center text-gray-500 dark:text-gray-400 mt-8">
+                        <p className="text-lg">👋 Welcome to your HR Assistant!</p>
+                        <p>Ask anything about HR policies to get started.</p>
+                      </div>
+                    )}
+
                   </div>
                 </motion.div>
               )}
