@@ -251,7 +251,7 @@ const deleteChat = async (chatId) => {
 
   {/* Logo and Title (desktop only) */}
   <div className="hidden md:block mb-4 text-center">
-    <img src={LmiLogo} alt="LMI Logo" className="w-24 mx-auto rounded-lg mb-2" />
+    <img src={LmiLogo} alt="LMI Logo" className="w-10 h-10 mx-auto rounded-lg mb-2" />
     <h2 className="text-xl font-semibold">LMI ChatBot</h2>
   </div>
 
@@ -263,7 +263,7 @@ const deleteChat = async (chatId) => {
   </Button>
 
   {/* Chat List with Hover Menu */}
-  <div className="flex-1 overflow-y-auto space-y-2">
+  <div className="flex-1 overflow-y-auto space-y-2 custom-scrollbar pr-2">
     {chats.map((chat) => {
       const displayTitle =
         chat.title?.charAt(0).toUpperCase() + chat.title?.slice(1) || `Chat ${chat._id.slice(-6)}`;
@@ -346,6 +346,7 @@ const deleteChat = async (chatId) => {
       <LogOut className="w-5 h-5 mr-2" />
       Logout
     </Button>
+    <div className="flex items-center justify-center">&copy; EAO</div>
   </div>
 </div>
 
